@@ -1,0 +1,285 @@
+/* CommentItem.module.css */
+
+/* 컨테이너 */
+.container {
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.parent {
+    padding: 10px 0;
+    margin-left: 0;
+}
+
+.child {
+    padding: 8px 0;
+    margin-left: 20px;
+}
+
+/* 헤더 및 정보 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+}
+
+/* 사용자명 및 시간 */
+.usernameParent {
+    font-weight: 500;
+    margin-right: 10px;
+    font-size: inherit;
+}
+
+.usernameChild {
+    font-weight: 500;
+    margin-right: 10px;
+    font-size: 0.95rem;
+}
+
+.timeParent {
+    color: #606060;
+    font-size: 0.85rem;
+}
+
+.timeChild {
+    color: #606060;
+    font-size: 0.8rem;
+}
+
+/* 메뉴 관련 */
+.menuContainer {
+    position: relative;
+}
+
+.menuButtonParent {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #606060;
+}
+
+.menuButtonChild {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #606060;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.dropdownItemParent {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.dropdownItemChild {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* 댓글 내용 */
+.contentParent {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.contentChild {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+/* 수정/삭제 영역 공통 */
+.updateContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.updateInputColumn {
+    width: 80%;
+}
+
+.updateActionColumn {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.updateTextarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.updateActionInput {
+    width: 90%;
+    padding: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.updateActionButton {
+    background-color: #065fd4;
+    color: #fff;
+    border: none;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.cancelButton {
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 삭제 영역 (수정/삭제와 별도) */
+.deletionContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    width: 50%;
+}
+
+/* 히스토리 영역 */
+.historyContainer {
+    background-color: #f9f9f9;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+.historyList {
+    padding-left: 18px;
+}
+
+.historyItem {
+    margin-bottom: 3px;
+}
+
+.historyVersion {
+    font-weight: 500;
+}
+
+/* 자식(대댓글) 영역 */
+.childToggleButton {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #065fd4;
+}
+
+.childContainer {
+    margin-top: 10px;
+}
+
+.childReplyContainer {
+    margin-top: 10px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.childReplyInputColumn {
+    width: 80%;
+    box-sizing: border-box;
+}
+
+.childReplyActionColumn {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.childReplyTextarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.childReplyPasswordInput {
+    width: 90%;
+    padding: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.childReplyButton {
+    background-color: #065fd4;
+    color: #fff;
+    border: none;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 버튼 그룹 (수정/삭제 버튼 묶음) */
+.buttonGroup {
+    display: flex;
+    gap: 10px;
+    width: 90%;
+}

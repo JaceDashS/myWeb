@@ -1,0 +1,63 @@
+/* src/components/Footer.module.css */
+
+.footer {
+    background-color: #1a1a2e;
+    /* 어두운 배경색 */
+    color: white;
+    /* 텍스트 색상 */
+    padding: 10px 30px;
+    /* 좌우 여백 추가 */
+    position: fixed;
+    /* 화면에 고정 */
+    bottom: 0;
+    /* 화면의 하단에 위치 */
+    left: 0;
+    width: 100%;
+    /* 화면 전체 너비 */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    /* 위쪽에 약간의 그림자 */
+    display: flex;
+    align-items: center;
+    /* 세로 중앙 정렬 */
+    justify-content: center;
+    /* 기본적으로 중앙 정렬 */
+}
+
+.footerContent {
+    display: flex;
+    /* Flexbox로 정렬 */
+    align-items: center;
+    /* 세로 중앙 정렬 */
+    justify-content: space-between;
+    /* 양 끝 정렬 */
+    max-width: 1200px;
+    margin: 0 auto;
+    /* 중앙 정렬 */
+}
+
+.footerText {
+    font-size: 0.875rem;
+    /* 텍스트 크기 */
+    margin: 0;
+}
+
+.socialIcons {
+    display: flex;
+    gap: 15px;
+    /* 아이콘 간 간격 */
+    position: absolute;
+    /* 절대 위치 지정 */
+    right: 100px;
+    /* 오른쪽으로 30px 이동 */
+}
+
+.socialIcon {
+    font-size: 1.5rem;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.socialIcon:hover {
+    color: #f39c12;
+    /* 호버 시 강조 색상 */
+}

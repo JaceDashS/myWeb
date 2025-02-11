@@ -1,0 +1,36 @@
+/* src/pages/Certificate.module.css */
+
+.certificateContainer {
+    padding: 40px;
+    background-color: #f9f9f9;
+    text-align: center;
+    min-height: 93vh;
+    /* 화면 전체 높이 채우기 */
+    box-sizing: border-box;
+    /* 패딩 포함 */
+    padding-bottom: 60px;
+    /* 푸터 높이에 맞춰 패딩 추가 */
+}
+
+.pageTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #1a1a2e;
+}
+
+.certificateSection {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.placeholderText {
+    font-size: 1.2rem;
+    color: #555;
+}

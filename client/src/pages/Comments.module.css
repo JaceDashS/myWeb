@@ -1,0 +1,99 @@
+/* src/pages/Comments.module.css */
+
+/* 전체 페이지 컨테이너 (댓글 목록, 입력 영역 포함) */
+.pageContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 20px 80px;
+    /* 상단(60px)과 하단(80px) 패딩 추가 */
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+/* 새 댓글 입력 영역 전체 컨테이너 (좌우 80% / 20% 레이아웃) */
+.newCommentContainer {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+/* 왼쪽 컬럼: 댓글 내용 입력 영역 (80%) */
+.commentInputColumn {
+    width: 80%;
+}
+
+/* 오른쪽 컬럼: 비밀번호 입력 및 댓글 작성 버튼 (20%) */
+.commentActionColumn {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+/* 댓글 내용 입력 (textarea) */
+.newCommentTextarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+/* 오른쪽 컬럼의 입력 필드 (비밀번호 입력) */
+.actionInput {
+    width: 90%;
+    padding: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 댓글 작성 버튼 */
+.actionButton {
+    background-color: #065fd4;
+    color: #fff;
+    border: none;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+/* 페이징 영역 */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    margin: 0 10px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.infoText {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
