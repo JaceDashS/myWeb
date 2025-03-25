@@ -1,74 +1,124 @@
 // src/pages/Apps.tsx
-import React from "react";
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 추가
-import Header from "../components/Header";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import styles from "./Apps.module.css";
+import { FaAndroid, FaGlobe, FaPlay } from "react-icons/fa";
 
 interface App {
   title: string;
   description: string;
   image: string;
-  path?: string; // 페이지 이동 경로 (선택)
-  apkUrl?: string; // APK 다운로드 링크 (선택)
-  iosUrl?: string; // iOS 다운로드 링크 (선택)
+  apkUrl?: string;
+  webUrl?: string;
+  demoUrl?: string;
 }
 
 const appsData: App[] = [
   {
-    title: "스쿼트 밸런서",
+    title: "Squat Balancer",
     description: "A service for optimizing your squat posture.",
-    image: "/images/squat-balancer.png",
-    path: "/apps/squat-balancer", // 추가된 경로
-    apkUrl: "https://my-apps-storage.s3.amazonaws.com/squat-balancer.apk", // APK 다운로드 링크 (예제)
-    iosUrl: "https://my-apps-storage.s3.amazonaws.com/squat-balancer.ipa", // iOS 다운로드 링크 (예제)
+    image: "/images/Squat-Balancer.png",
+    apkUrl: "https://s3.us-east-1.amazonaws.com/cdn.jace-s.com/squat-balancer.apk",
+    webUrl: "https://squat-balancer.netlify.app/",
+    demoUrl: "https://www.youtube.com/watch?v=-wBZ6eyQMms", // Demo URL (현재는 YouTube URL로 연결)
   },
-  // {
-  //   title: "App Three",
-  //   description: "A cutting-edge tool for enhancing your productivity.",
-  //   image: "/images/app3.png",
-  //   apkUrl: "https://my-apps-storage.s3.amazonaws.com/app-three.apk", // APK 다운로드 링크 (예제)
-  //   iosUrl: "https://my-apps-storage.s3.amazonaws.com/app-three.ipa", // iOS 다운로드 링크 (예제)
-  // }
+  {
+    title: "Transformer Attention Visualizer",
+    description: "User friendly attention visualizer",
+    image: "/images/Transformer-Attention-Visualizer.png",
+    webUrl: "https://bert-attention-visualizer.vercel.app/",
+  },
 ];
 
 const Apps: React.FC = () => {
-  const navigate = useNavigate(); // 페이지 이동 함수
+  const [showDemo, setShowDemo] = useState(false);
 
   return (
     <div>
-      <Header />
+      {/* Header 제거 */}
       <main className={styles.appsContainer}>
         <h1 className={styles.pageTitle}>My Applications</h1>
         <div className={styles.appsTable}>
           {appsData.map((app, index) => (
-            <div key={index} className={styles.appRow}>
+            <React.Fragment key={index}>
               <div
-                className={styles.appContent}
-                onClick={() => app.path && navigate(app.path)}
-                style={app.path ? { cursor: "pointer" } : {}}
+                className={styles.appRow}
+                style={{
+                  pointerEvents: "none", // 전체 행은 포인터 이벤트 차단 (hover 반응 없음)
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "1rem",
+                }}
               >
-                <div className={styles.appIcon}>
-                  <img src={app.image} alt={`${app.title} icon`} />
+                {/* 왼쪽 이미지 */}
+                <div className={styles.appIcon} style={{ marginRight: "1rem" }}>
+                  <img
+                    src={app.image}
+                    alt={`${app.title} icon`}
+                    style={{ width: "60px", height: "60px" }}
+                  />
                 </div>
-                <div className={styles.appDescription}>
+                {/* 중앙 설명 (클릭 이벤트 제거) */}
+                <div className={styles.appContent} style={{ flexGrow: 1 }}>
                   <h2 className={styles.appTitle}>{app.title}</h2>
                   <p className={styles.appText}>{app.description}</p>
                 </div>
+                {/* 오른쪽 버튼 그룹 - 버튼들만 pointerEvents 활성화 */}
+                <div
+                  className={styles.downloadButtons}
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    marginLeft: "auto",
+                  }}
+                >
+                  {app.apkUrl && (
+                    <a
+                      style={{ pointerEvents: "auto" }}
+                      className={styles.downloadButton}
+                      href={app.apkUrl}
+                      download
+                    >
+                      <FaAndroid size={20} style={{ verticalAlign: "middle" }} /> APK
+                    </a>
+                  )}
+                  {app.webUrl && (
+                    <a
+                      style={{ pointerEvents: "auto" }}
+                      className={styles.downloadButton}
+                      href={app.webUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaGlobe size={20} style={{ verticalAlign: "middle" }} /> Web
+                    </a>
+                  )}
+                  {app.demoUrl && (
+                    <button
+                      style={{ pointerEvents: "auto" }}
+                      className={styles.downloadButton}
+                      onClick={() => setShowDemo(!showDemo)}
+                    >
+                      <FaPlay size={20} style={{ verticalAlign: "middle" }} /> Demo
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className={styles.downloadButtons}>
-                {app.apkUrl && (
-                  <a className={styles.downloadButton} href={app.apkUrl} download>
-                    📥 Download APK
-                  </a>
-                )}
-                {app.iosUrl && (
-                  <a className={styles.downloadButton} href={app.iosUrl} download>
-                    🍏 Download iOS (IPA)
-                  </a>
-                )}
-              </div>
-            </div>
+              {/* Squat Balancer 항목 바로 아래에 데모 렌더링 */}
+              {app.title === "Squat Balancer" && showDemo && (
+                <div className={styles.demoContainer} style={{ marginBottom: "1rem" }}>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/-wBZ6eyQMms?autoplay=1"
+                    title="Demo video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </main>

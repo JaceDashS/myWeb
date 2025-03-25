@@ -1,95 +1,159 @@
-/* client/src/pages/Skills.module.css */
-
+/* src/pages/Skills.module.css */
 .skillsContainer {
     padding: 40px;
     background-color: #f9f9f9;
     text-align: center;
-}
-
-.pageTitle {
+    min-height: 93vh;
+    box-sizing: border-box;
+    padding-bottom: 60px;
+  }
+  
+  .pageTitle {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 40px;
     color: #1a1a2e;
-}
-
-.categorySection {
+  }
+  
+  .categoryRow {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
     margin-bottom: 40px;
-}
-
-.categoryTitle {
+  }
+  
+  /* 모든 카테고리의 기본 설정 */
+  .categorySection {
+    flex: 1;
+    max-width: 800px;
+  }
+  
+  /* Programming Languages 전용: 외부 컨테이너를 전체 넓이로 확장 */
+  .fullWidthCategory {
+    max-width: none;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .categoryTitle {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 20px;
     color: #1a1a2e;
-}
-
-.skillsSection {
+  }
+  
+  .categoryContainer {
+    background-color: #eaeaea;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  /* Programming Languages 한 줄 배치 */
+  .noWrap .skillsSection {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .skillsSection {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
-}
-
-.skillCard {
+    justify-content: center;
+  }
+  
+  .skillCardWrapper {
+    flex: 1 1 200px;
+    max-width: 250px;
+  }
+  
+  /* 스킬 카드: 버튼 외에는 pointer events 비활성화 */
+  .skillCard {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 220px;
-    text-align: center;
+    padding: 15px;
     transition: transform 0.3s ease;
-}
-
-.skillCard:hover {
-    transform: translateY(-5px);
-}
-
-.progressCircle {
-    margin: 0 auto 20px;
-    width: 120px;
-    height: 120px;
-    position: relative;
-}
-
-.circleSvg {
-    width: 100%;
-    height: 100%;
+    pointer-events: none;
+  }
+  
+  /* 버튼은 pointer events 활성화 */
+  .downloadButton {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  
+  .downloadButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .progressCircle {
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .circleSvg {
+    width: 80px;
+    height: 80px;
     transform: rotate(-90deg);
-}
-
-.circleBg {
+  }
+  
+  .circleBg {
     fill: none;
     stroke: #eee;
-    /* 배경 원 색상 */
-    stroke-width: 2.5;
-}
-
-.circle {
+    stroke-width: 3.8;
+  }
+  
+  .circle {
     fill: none;
     stroke: #29295e;
-    /* 진행도 원 색상 (남색) */
-    stroke-width: 2.5;
+    stroke-width: 2.8;
     stroke-linecap: round;
     transition: stroke-dasharray 0.3s ease;
-}
-
-.percentageText {
+  }
+  
+  .percentageText {
     font-size: 0.6rem;
     font-weight: bold;
     fill: #1a1a2e;
-    /* 텍스트 색상 */
     text-anchor: middle;
     dominant-baseline: middle;
-}
-
-.skillTitle {
-    font-size: 1.25rem;
+  }
+  
+  .skillTitle {
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.skillDescription {
-    font-size: 0.875rem;
-    color: #777;
-}
+    margin-top: 10px;
+    color: #1a1a2e;
+  }
+  
+  .skillDescription {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .demoVideosContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .demoContainer {
+    width: 480px;
+    max-width: 100%;
+    text-align: center;
+  }
+  

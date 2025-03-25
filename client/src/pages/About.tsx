@@ -7,7 +7,6 @@ import styles from './About.module.css';
 const About: React.FC = () => {
     return (
         <div>
-            <Header />
             <main className={styles.aboutContainer}>
                 <aside className={styles.aboutSidebar}>
                     <img
@@ -35,7 +34,14 @@ const About: React.FC = () => {
                     <h1 className={styles.aboutMainName}>Jung soo Shin</h1>
                     <h3 className={styles.sectionTitle}>Description</h3>
                     <p className={styles.aboutDescription}>
-                        I am a developer fluent in English, Korean, and Japanese. I enjoy learning new technologies and continuously expanding my skill set. With a strong emphasis on collaborative problem-solving and efficient version control, I thrive in dynamic team environments. My deep appreciation for music enhances my creativity, while my passion for fitness keeps me disciplined and driven. Always eager to explore emerging technologies, I strive to craft innovative solutions that create meaningful impact.
+                        I'm currently finishing my Bachelor of Science in Computer Science at Stony Brook University, with a specialization in Artificial Intelligence and Data Science. I’m expected to graduate in May 2025.
+                        <br></br>
+                        Being fluent in English, Korean, and Japanese allows me to access a wide range of technical resources, documentation, and communities across different languages. This gives me a unique advantage in learning new technologies faster and more effectively than others.
+                        <br></br>
+                        Driven by curiosity, I’m always eager to explore emerging tools and frameworks that push the boundaries of what technology can do.
+                        <br></br>
+                        Outside of tech, I enjoy staying active and expressing myself through music. I mainly play the guitar, have studied music theory, and composed several original pieces.
+                        
                     </p>
                     {/* 하단 카드 섹션 (필요 시 주석 해제) */}
                     {/*

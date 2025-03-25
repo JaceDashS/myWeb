@@ -1,6 +1,6 @@
 // client/src/App.tsx
 import React, { useEffect, useState, useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
+import Header from './components/Header';
 import About from './pages/About';
 import Skills from './pages/Skills';
 import Apps from './pages/Apps';
@@ -9,13 +9,21 @@ import Certificate from './pages/Certificate';
 import Comments from './pages/Comments';
 
 const App: React.FC = () => {
+  // 각 섹션에 대한 ref 생성
+  const aboutRef = useRef<HTMLElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);
+  const certificateRef = useRef<HTMLElement>(null);
+  const appsRef = useRef<HTMLElement>(null);
+  const commentsRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
 
+  // 필요한 경우 API 호출 등 기존 로직 유지
   const [message, setMessage] = useState('');
-  const hasFetched = useRef(false); // fetch 여부를 추적하기 위한 ref
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (hasFetched.current) return; // 이미 fetch 했다면 종료
-    hasFetched.current = true; // fetch 시작
+    if (hasFetched.current) return;
+    hasFetched.current = true;
 
     const apiUrl = process.env.REACT_APP_API_URL || '/';
     console.log('API URL:', apiUrl);
@@ -39,21 +47,40 @@ const App: React.FC = () => {
     }
   }, [message]);
 
+  // 섹션 ref들을 하나의 객체로 묶어서 Header에 전달
+  const sectionRefs = {
+    about: aboutRef,
+    skills: skillsRef,
+    certificate: certificateRef,
+    apps: appsRef,
+    comments: commentsRef,
+    contact: contactRef,
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<About />} />
-        <Route path="/skills" element={<Skills />} />
-        <Route path="/apps" element={<Apps />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/certificate" element={<Certificate />} />
-        <Route path="/comments" element={<Comments />} />
-
-        {/* 존재하지 않는 경로로 이동 시 기본 페이지로 리디렉트 */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+    <>
+      <Header sectionRefs={sectionRefs} />
+      <main>
+        <section ref={aboutRef} className="scroll-section">
+          <About />
+        </section>
+        <section ref={skillsRef}>
+          <Skills />
+        </section>
+        <section ref={certificateRef}>
+          <Certificate />
+        </section>
+        <section ref={appsRef}>
+          <Apps />
+        </section>
+        <section ref={commentsRef}>
+          <Comments />
+        </section>
+        <section ref={contactRef}>
+          <Contact />
+        </section>
+      </main>
+    </>
   );
 };
 

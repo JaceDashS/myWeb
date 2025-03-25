@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import {
   FaPhone,
   FaEnvelope,
-  FaLinkedin,
+  // FaLinkedin,
   FaInstagram
 } from "react-icons/fa";
 import styles from "./Contact.module.css";
@@ -13,7 +13,6 @@ import styles from "./Contact.module.css";
 const Contact: React.FC = () => {
   return (
     <div>
-      <Header />
       <main className={styles.contactContainer}>
         <h1 className={styles.pageTitle}>Contact</h1>
         <div className={styles.contactSection}>
@@ -34,7 +33,7 @@ const Contact: React.FC = () => {
               jungsoo.shin0827@gmail.com
             </a>
           </p>
-          <p className={styles.contactItem}>
+          {/* <p className={styles.contactItem}>
             <FaLinkedin className={styles.contactIcon} />
             <strong> LinkedIn: </strong>
             <a
@@ -45,7 +44,7 @@ const Contact: React.FC = () => {
             >
               linkedin.com/in/jungsoo-shin-28779a238
             </a>
-          </p>
+          </p> */}
           <p className={styles.contactItem}>
             <FaInstagram className={styles.contactIcon} />
             <strong> Instagram: </strong>

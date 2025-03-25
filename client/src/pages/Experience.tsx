@@ -7,7 +7,6 @@ import styles from "./Experience.module.css";
 const Experience: React.FC = () => {
   return (
     <div className={styles.experiencePage}>
-      <Header />
       <main className={styles.experienceContainer}>
         <h1 className={styles.pageTitle}>Work Experience</h1>
         <div className={styles.experienceSection}>

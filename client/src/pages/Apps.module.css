@@ -109,3 +109,9 @@
     background-color: #0056b3;
   }
   
+  .appRow:hover {
+    background-color: transparent !important;
+    transform: none !important;
+    /* etc... */
+  }
+  

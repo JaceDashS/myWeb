@@ -365,7 +365,9 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
                     />
                   ))
                 ) : (
-                  <p>No replies available.</p>
+                  <p>
+                    {/* No replies available. */}
+                  </p>
                 )}
               </div>
               <div className={styles.childReplyContainer}>

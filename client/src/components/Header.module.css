@@ -42,3 +42,8 @@
     background-color: #9b59b6;
     color: white;
 }
+
+.scroll-section {
+    scroll-margin-top: 80px;
+    /* Header 높이에 맞게 조정 */
+}
