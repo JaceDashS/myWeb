@@ -19,7 +19,7 @@
     "stop:dev": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :3000') do taskkill /PID %a /F & for /f \"tokens=5\" %b in ('netstat -ano ^| findstr :8080') do taskkill /PID %b /F",
     "docker:compose:no-cache": "npm run build:server && docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache && docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
     "docker:compose": "npm run build:server && docker compose -f docker-compose.yml -f docker-compose.dev.yml build && docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
-    "zip": "npm run build:server && npx rimraf node_modules client/node_modules server/node_modules && powershell -Command \"Compress-Archive -Path . -DestinationPath ../myweb.zip\""
+    "zip": "npm run build:server && npx rimraf node_modules client/node_modules server/node_modules && powershell -Command \"Compress-Archive -Path . -DestinationPath ../myWeb.zip\""
   },
   "keywords": [],
   "author": "",
