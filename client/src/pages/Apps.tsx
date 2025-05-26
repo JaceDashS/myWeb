@@ -1,8 +1,8 @@
-// src/pages/Apps.tsx
-import React, { useState } from "react";
-import Footer from "../components/Footer";
-import styles from "./Apps.module.css";
-import { FaAndroid, FaGlobe, FaPlay, FaGithub } from "react-icons/fa";
+// client/src/pages/Apps.tsx
+import React, { useState } from 'react';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import { FaAndroid, FaGlobe, FaPlay, FaGithub } from 'react-icons/fa';
 
 interface App {
   title: string;
@@ -16,192 +16,103 @@ interface App {
 
 const appsData: App[] = [
   {
-    title: "Squat Balancer",
-    description: "A service for optimizing your squat posture.",
-    image: "/images/Squat-Balancer.png",
-    apkUrl: "https://s3.us-east-1.amazonaws.com/cdn.jace-s.com/squat-balancer.apk",
-    webUrl: "https://squat-balancer.netlify.app/",
-    demoUrl: "https://www.youtube.com/watch?v=-wBZ6eyQMms", // Demo URL (현재는 YouTube URL로 연결)
-    githubUrl: "https://github.com/Jace0827/Squat-Balancer",
+    title: 'Squat Balancer',
+    description: 'A service for optimizing your squat posture.',
+    image: '/images/Squat-Balancer.png',
+    apkUrl: 'https://s3.us-east-1.amazonaws.com/cdn.jace-s.com/squat-balancer.apk',
+    webUrl: 'https://squat-balancer.netlify.app/',
+    demoUrl: 'https://www.youtube.com/watch?v=-wBZ6eyQMms',
+    githubUrl: 'https://github.com/Jace0827/Squat-Balancer',
   },
   {
-    title: "Transformer Attention Visualizer",
-    description: "User friendly attention visualizer",
-    image: "/images/Transformer-Attention-Visualizer.png",
-    webUrl: "https://bert-attention-visualizer.vercel.app/",
-    githubUrl: "https://github.com/Team-Lasso/bert-attention-visualizer",
+    title: 'Transformer Attention Visualizer',
+    description: 'User friendly attention visualizer',
+    image: '/images/Transformer-Attention-Visualizer.png',
+    webUrl: 'https://bert-attention-visualizer.vercel.app/',
+    githubUrl: 'https://github.com/Team-Lasso/bert-attention-visualizer',
   },
 ];
 
 const Apps: React.FC = () => {
-  const [showDemo, setShowDemo] = useState(false);
+  const [showDemoTitle, setShowDemoTitle] = useState<string | null>(null);
+
+  const toggleDemo = (title: string) => {
+    setShowDemoTitle(prev => (prev === title ? null : title));
+  };
 
   return (
-    <div>
-      {/* Header 제거 */}
-      <main className={styles.appsContainer}>
-        <h1 className={styles.pageTitle}>My Applications</h1>
-        <div className={styles.appsTable}>
-          {appsData.map((app, index) => (
-            <React.Fragment key={index}>
-              <div
-                className={styles.appRow}
-                style={{
-                  pointerEvents: "none", // 전체 행은 포인터 이벤트 차단 (hover 반응 없음)
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                {/* 왼쪽 이미지 */}
-                <div className={styles.appIcon} style={{ marginRight: "1rem" }}>
-                  <img
-                    src={app.image}
-                    alt={`${app.title} icon`}
-                    style={{ width: "60px", height: "60px" }}
-                  />
-                </div>
-                {/* 중앙 설명 (클릭 이벤트 제거) */}
-                <div className={styles.appContent} style={{ flexGrow: 1 }}>
-                  <h2 className={styles.appTitle}>{app.title}</h2>
-                  <p className={styles.appText}>{app.description}</p>
-                </div>
-                {/* 오른쪽 버튼 그룹 */}
-                {app.title === "Squat Balancer" ? (
-                  <div style={{ marginLeft: "auto" }}>
-                    {/* 첫 번째 줄: APK, Web */}
-                    <div
-                      className={styles.downloadButtons}
-                      style={{
-                        display: "flex",
-                        gap: "0.5rem",
-                        marginBottom: "0.5rem",
-                      }}
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
+      {/* <Header /> */}
+      <main className="flex-1 container mx-auto px-0 py-4">
+        <h1 className="text-3xl font-bold mb-6">My Applications</h1>
+        <div className="space-y-6">
+          {appsData.map(app => (
+            <div key={app.title} className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-6">
+              <img
+                src={app.image}
+                alt={`${app.title} icon`}
+                className="w-24 h-24 rounded-md flex-shrink-0"
+              />
+              <div className="flex-1">
+                <h2 className="text-2xl font-semibold mb-1">{app.title}</h2>
+                <p className="text-gray-300 mb-4">{app.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {app.apkUrl && (
+                    <a
+                      href={app.apkUrl}
+                      download
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md flex items-center"
                     >
-                      {app.apkUrl && (
-                        <a
-                          style={{ pointerEvents: "auto" }}
-                          className={styles.downloadButton}
-                          href={app.apkUrl}
-                          download
-                        >
-                          <FaAndroid size={20} style={{ verticalAlign: "middle" }} /> APK
-                        </a>
-                      )}
-                      {app.webUrl && (
-                        <a
-                          style={{ pointerEvents: "auto" }}
-                          className={styles.downloadButton}
-                          href={app.webUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <FaGlobe size={20} style={{ verticalAlign: "middle" }} /> Web
-                        </a>
-                      )}
-                    </div>
-                    {/* 두 번째 줄: Demo, Code */}
-                    <div
-                      className={styles.downloadButtons}
-                      style={{
-                        display: "flex",
-                        gap: "0.5rem",
-                      }}
+                      <FaAndroid className="mr-2" /> APK
+                    </a>
+                  )}
+                  {app.webUrl && (
+                    <a
+                      href={app.webUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md flex items-center"
                     >
-                      {app.demoUrl && (
-                        <button
-                          style={{ pointerEvents: "auto" }}
-                          className={styles.downloadButton}
-                          onClick={() => setShowDemo(!showDemo)}
-                        >
-                          <FaPlay size={20} style={{ verticalAlign: "middle" }} /> Demo
-                        </button>
-                      )}
-                      {app.githubUrl && (
-                        <a
-                          style={{ pointerEvents: "auto" }}
-                          className={styles.downloadButton}
-                          href={app.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <FaGithub size={20} style={{ verticalAlign: "middle" }} /> Code
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className={styles.downloadButtons}
-                    style={{
-                      display: "flex",
-                      gap: "0.5rem",
-                      marginLeft: "auto",
-                    }}
-                  >
-                    {app.apkUrl && (
-                      <a
-                        style={{ pointerEvents: "auto" }}
-                        className={styles.downloadButton}
-                        href={app.apkUrl}
-                        download
-                      >
-                        <FaAndroid size={20} style={{ verticalAlign: "middle" }} /> APK
-                      </a>
-                    )}
-                    {app.webUrl && (
-                      <a
-                        style={{ pointerEvents: "auto" }}
-                        className={styles.downloadButton}
-                        href={app.webUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaGlobe size={20} style={{ verticalAlign: "middle" }} /> Web
-                      </a>
-                    )}
-                    {app.demoUrl && (
-                      <button
-                        style={{ pointerEvents: "auto" }}
-                        className={styles.downloadButton}
-                        onClick={() => setShowDemo(!showDemo)}
-                      >
-                        <FaPlay size={20} style={{ verticalAlign: "middle" }} /> Demo
-                      </button>
-                    )}
-                    {app.githubUrl && (
-                      <a
-                        style={{ pointerEvents: "auto" }}
-                        className={styles.downloadButton}
-                        href={app.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaGithub size={20} style={{ verticalAlign: "middle" }} /> Code
-                      </a>
-                    )}
+                      <FaGlobe className="mr-2" /> Web
+                    </a>
+                  )}
+                  {app.demoUrl && (
+                    <button
+                      onClick={() => toggleDemo(app.title)}
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md flex items-center"
+                    >
+                      <FaPlay className="mr-2" /> Demo
+                    </button>
+                  )}
+                  {app.githubUrl && (
+                    <a
+                      href={app.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md flex items-center"
+                    >
+                      <FaGithub className="mr-2" /> Code
+                    </a>
+                  )}
+                </div>
+                {showDemoTitle === app.title && app.demoUrl && (
+                  <div className="mt-4 w-full aspect-w-16 aspect-h-9">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${new URL(app.demoUrl).searchParams.get('v')}`}
+                      className="w-full h-full rounded-lg"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={`${app.title} Demo`}
+                    />
                   </div>
                 )}
               </div>
-              {/* Squat Balancer 항목 바로 아래에 데모 렌더링 */}
-              {app.title === "Squat Balancer" && showDemo && (
-                <div className={styles.demoContainer} style={{ marginBottom: "1rem" }}>
-                  <iframe
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/U92xMf1uVh4"
-                    title="Demo video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              )}
-            </React.Fragment>
+            </div>
           ))}
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

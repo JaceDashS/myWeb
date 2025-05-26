@@ -1,37 +1,32 @@
-// src/pages/Comments.tsx
+// client/src/pages/Comments.tsx
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import CommentItemComponent, { CommentItem } from '../components/CommentItem';
 import Spinner from '../components/Spinner';
-import styles from './Comments.module.css';
 
 const Comments: React.FC = () => {
   const [comments, setComments] = useState<CommentItem[]>([]);
-  const [page, setPage] = useState(1);
-  const [limit] = useState(5);
-  const [totalCount, setTotalCount] = useState(0);
-  const [newContent, setNewContent] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [showRules, setShowRules] = useState(false);
+  const [page, setPage] = useState<number>(1);
+  const [limit] = useState<number>(5);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [newContent, setNewContent] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showRules, setShowRules] = useState<boolean>(false);
 
-  // Set API URL using environment variable or default value
   const apiUrl = process.env.REACT_APP_API_URL || '/api/';
 
   const fetchComments = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${apiUrl}comments?page=${page}&limit=${limit}`);
-      const data = await response.json();
-      if (response.ok) {
+      const res = await fetch(`${apiUrl}comments?page=${page}&limit=${limit}`);
+      console.log("Comment apiUrl: " + `${apiUrl}comments?page=${page}&limit=${limit}`);
+      const data = await res.json();
+      if (res.ok) {
         setComments(data.data);
         setTotalCount(data.totalCount);
-      } else {
-        console.error('Fetch comments error:', data.error);
       }
-    } catch (error) {
-      console.error('Fetch comments error:', error);
+    } catch (e) {
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -43,123 +38,122 @@ const Comments: React.FC = () => {
       return;
     }
     try {
-      const response = await fetch(`${apiUrl}comments`, {
+      const res = await fetch(`${apiUrl}comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          parentHeaderId: null, // Create parent comment
-          content: newContent,
-          userPassword: newPassword,
-        }),
+        body: JSON.stringify({ parentHeaderId: null, content: newContent, userPassword: newPassword }),
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert('Comment created successfully.');
+      const data = await res.json();
+      if (res.ok) {
         setNewContent('');
         setNewPassword('');
         setPage(1);
         fetchComments();
       } else {
-        alert(`Comment creation failed: ${data.error}`);
+        alert(`Failed: ${data.error}`);
       }
-    } catch (error) {
-      console.error('Create comment error:', error);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   useEffect(() => {
     fetchComments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (
-    <div>
-      <main className={styles.pageContainer}>
-        <h1 style={{ marginBottom: '20px' }}>Comments</h1>
-        <p className={styles.infoText}>
-          * Your username is automatically generated based on a hashed value of your IP address.
+    // min-h-screen 제거 → div 높이는 콘텐츠에 맞춰 자동 조정됩니다.
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
+
+      <main className="container mx-auto px-6 pt-4 pb-8">
+        <h1 className="text-3xl font-bold mb-4">Comments</h1>
+        <p className="text-gray-400 mb-6">
+          * Your username is generated based on a hash of your IP address.
         </p>
-        <section className={styles.newCommentContainer}>
-          {/* Left column: Enter comment content */}
-          <div className={styles.commentInputColumn}>
-            <textarea
-              className={styles.newCommentTextarea}
-              value={newContent}
-              onChange={(e) => setNewContent(e.target.value)}
-              placeholder="Enter your comment."
-              rows={3}
-            />
-          </div>
-          {/* Right column: Password input and comment submission button */}
-          <div className={styles.commentActionColumn}>
+
+        {/* 입력 폼 */}
+        <div className="bg-gray-800 p-4 rounded-2xl shadow-lg mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <textarea
+            className="col-span-1 lg:col-span-2 w-full bg-gray-700 p-3 rounded-md text-gray-100 focus:outline-none"
+            rows={3}
+            placeholder="Enter your comment"
+            value={newContent}
+            onChange={e => setNewContent(e.target.value)}
+          />
+          <div className="flex flex-col space-y-2">
             <input
               type="password"
-              className={styles.actionInput}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full bg-gray-700 p-3 rounded-md text-gray-100 focus:outline-none"
               placeholder="Password"
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
             />
-            <button className={styles.actionButton} onClick={handleCreateComment}>
+            <button
+              onClick={handleCreateComment}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-md"
+            >
               Submit Comment
             </button>
           </div>
-        </section>
-        {/* Toggleable Commenting Rules Section */}
-        <div className={styles.rulesContainer}>
+        </div>
+
+        {/* 규칙 토글 */}
+        <div className="mb-6">
           <button
-            className={styles.rulesToggleButton}
-            onClick={() => setShowRules(!showRules)}
+            onClick={() => setShowRules(prev => !prev)}
+            className="text-indigo-400 hover:text-indigo-300"
           >
             {showRules ? 'Hide Commenting Rules' : 'Show Commenting Rules'}
           </button>
           {showRules && (
-            <div className={styles.rulesContent}>
-              <ul>
-                <li>
-                  When a comment is created or edited, the author's identity is generated by hashing the user's current IP address.
-                </li>
-                <li>
-                  Edited comments maintain a history that can be viewed at any time.
-                </li>
-                <li>
-                  When a comment is deleted, it is marked as (deleted) and its history is no longer accessible, although the hashed IP of the user remains visible.
-                </li>
-                <li>
-                  These rules apply equally to replies.
-                </li>
-              </ul>
-            </div>
+            <ul className="mt-2 list-disc list-inside text-gray-400 space-y-2">
+              <li>When a comment is created or edited, the author's identity is generated by hashing the user's current IP address.</li>
+              <li>Edited comments maintain a viewable history.</li>
+              <li>Deleted comments are marked as (deleted) and their history is no longer accessible, though the hashed IP remains visible.</li>
+              <li>These rules apply equally to replies.</li>
+            </ul>
           )}
         </div>
-        <section>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            comments.map((comment) => (
+
+        {/* 댓글 리스트 */}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="space-y-4">
+            {comments.map(comment => (
               <CommentItemComponent
                 key={comment.id}
                 comment={comment}
                 apiUrl={apiUrl}
                 onReload={fetchComments}
               />
-            ))
-          )}
-        </section>
-        <div className={styles.pagination}>
-          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+            ))}
+          </div>
+        )}
+
+        {/* 페이징 */}
+        <div className="mt-6 flex items-center justify-center space-x-6">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(prev => prev - 1)}
+            className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50"
+          >
             Previous
           </button>
-          <span>
+          <span className="text-gray-400">
             {page} / {Math.ceil(totalCount / limit)} pages
           </span>
-          <button disabled={page * limit >= totalCount} onClick={() => setPage(page + 1)}>
+          <button
+            disabled={page * limit >= totalCount}
+            onClick={() => setPage(prev => prev + 1)}
+            className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50"
+          >
             Next
           </button>
         </div>
-        {/* Move "Powered by OCI Autonomous Database" above Footer */}
-        <p className={styles.footer}>Powered by OCI Autonomous Database</p>
+
+        <p className="mt-4 mb-6 text-center text-gray-500">Powered by OCI Autonomous Database</p>
       </main>
-      <Footer />
     </div>
   );
 };

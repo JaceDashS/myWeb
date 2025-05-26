@@ -273,7 +273,7 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
               <textarea
                 className={styles.updateTextarea}
                 value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
+                onChange={e => setEditContent(e.target.value)}
                 placeholder="Content to update"
                 rows={3}
               />
@@ -283,14 +283,21 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
                 type="password"
                 className={styles.updateActionInput}
                 value={editPassword}
-                onChange={(e) => setEditPassword(e.target.value)}
+                onChange={e => setEditPassword(e.target.value)}
                 placeholder="Password"
               />
+
               <div className={styles.buttonGroup}>
-                <button className={styles.updateActionButton} onClick={handleUpdateComment}>
+                <button
+                  onClick={handleUpdateComment}
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-md transition-colors w-11/12 mx-auto"
+                >
                   Confirm
                 </button>
-                <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md transition-colors w-11/12 mx-auto"
+                >
                   Cancel
                 </button>
               </div>
@@ -308,13 +315,19 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
             type="password"
             className={styles.updateActionInput}
             value={deletePassword}
-            onChange={(e) => setDeletePassword(e.target.value)}
+            onChange={e => setDeletePassword(e.target.value)}
             placeholder="Delete Password"
           />
-          <button className={styles.updateActionButton} onClick={handleDeleteComment}>
+          <button
+            onClick={handleDeleteComment}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-md transition-colors"
+          >
             Confirm
           </button>
-          <button className={styles.cancelButton} onClick={() => setIsDeleting(false)}>
+          <button
+            onClick={() => setIsDeleting(false)}
+            className="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md transition-colors"
+          >
             Cancel
           </button>
         </div>
@@ -370,7 +383,7 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
                   </p>
                 )}
               </div>
-              <div className={styles.childReplyContainer}>
+              <div className={`${styles.childReplyContainer} flex items-start gap-0 justify-start`}>
                 <div className={styles.childReplyInputColumn}>
                   <textarea
                     className={styles.childReplyTextarea}
@@ -388,7 +401,16 @@ const CommentItemComponent: React.FC<CommentProps> = ({ comment, apiUrl, onReloa
                     onChange={(e) => setReplyPassword(e.target.value)}
                     placeholder="Password"
                   />
-                  <button className={styles.childReplyButton} onClick={handleCreateReply}>
+                  <button
+                    className="
+                     bg-indigo-600 hover:bg-indigo-500
+                     text-white
+                     py-1.5 px-11      /* 좌우 패딩만 조절 */
+                     rounded-md
+                     transition-colors
+                   "
+                    onClick={handleCreateReply}
+                  >
                     Submit
                   </button>
                 </div>

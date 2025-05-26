@@ -1,86 +1,73 @@
 // client/src/App.tsx
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from './components/Header';
+import Footer from './components/Footer';  // ← Footer 임포트 추가
 import About from './pages/About';
-import Skills from './pages/Skills';
 import Apps from './pages/Apps';
-import Contact from './pages/Contact';
-import Certificate from './pages/Certificate';
 import Comments from './pages/Comments';
 
 const App: React.FC = () => {
-  // 각 섹션에 대한 ref 생성
+  /* ───────── refs for header nav ───────── */
   const aboutRef = useRef<HTMLElement>(null);
-  const skillsRef = useRef<HTMLElement>(null);
-  const certificateRef = useRef<HTMLElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);   // stub
+  const certificateRef = useRef<HTMLElement>(null);   // stub
   const appsRef = useRef<HTMLElement>(null);
   const commentsRef = useRef<HTMLElement>(null);
-  const contactRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);   // stub
 
-  // 필요한 경우 API 호출 등 기존 로직 유지
+  const sectionRefs = {
+    about:       aboutRef,
+    skills:      skillsRef,
+    certificate: certificateRef,
+    apps:        appsRef,
+    comments:    commentsRef,
+    contact:     contactRef,
+  } as const;
+
+  /* ───────── optional backend ping ───────── */
   const [message, setMessage] = useState('');
-  const hasFetched = useRef(false);
-
+  const fetched = useRef(false);
   useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
-
-    const apiUrl = process.env.REACT_APP_API_URL || '/';
-    console.log('API URL:', apiUrl);
-
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMessage(`Server response: ${data.message}`);
-      })
-      .catch((error) => console.error('Error:', error));
+    if (fetched.current) return;
+    fetched.current = true;
+    fetch(process.env.REACT_APP_API_URL || '/')
+      .then(r => r.json())
+      .then(d => setMessage(d.message))
+      .catch(console.error);
   }, []);
 
-  useEffect(() => {
-    if (message) {
-      console.log(message);
-    }
-  }, [message]);
-
-  // 섹션 ref들을 하나의 객체로 묶어서 Header에 전달
-  const sectionRefs = {
-    about: aboutRef,
-    skills: skillsRef,
-    certificate: certificateRef,
-    apps: appsRef,
-    comments: commentsRef,
-    contact: contactRef,
-  };
-
   return (
-    <>
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
+      {/* 헤더 */}
       <Header sectionRefs={sectionRefs} />
-      <main>
-        <section ref={aboutRef} className="scroll-section">
+
+      {/* 본문 */}
+      <main className="pt-16 flex-1 space-y-24">
+        <section
+          ref={aboutRef}
+          className="-mt-16 scroll-mt-16 container mx-auto px-6"
+        >
           <About />
         </section>
-        <section ref={skillsRef}>
-          <Skills />
-        </section>
-        <section ref={certificateRef}>
-          <Certificate />
-        </section>
-        <section ref={appsRef}>
+
+        <section
+          ref={appsRef}
+          className="scroll-mt-16 container mx-auto px-6"
+        >
           <Apps />
         </section>
-        <section ref={commentsRef}>
+
+        <section
+          ref={commentsRef}
+          className="scroll-mt-16 container mx-auto px-6"
+        >
           <Comments />
         </section>
-        <section ref={contactRef}>
-          <Contact />
-        </section>
       </main>
-    </>
+
+      {/* 푸터 */}
+      <Footer />
+    </div>
   );
 };
 

@@ -9,12 +9,12 @@
 }
 
 .parent {
-    padding: 10px 0;
+    padding: 10px 0 5px 0;
     margin-left: 0;
 }
 
 .child {
-    padding: 8px 0;
+    padding: 8px 0 4px 0;
     margin-left: 20px;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .timeParent {
-    color: #606060;
+    color: #9CA3AF;
     font-size: 0.85rem;
 }
 
@@ -59,32 +59,49 @@
     position: relative;
 }
 
-.menuButtonParent {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: #606060;
-}
-
+.menuButtonParent,
 .menuButtonChild {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.2rem;
     line-height: 1;
-    color: #606060;
+    color: #9CA3AF;           /* gray-400 */
+    transition: color 0.2s;
+}
+
+.menuButtonParent {
+    font-size: 1.5rem;
+}
+
+.menuButtonChild {
+    font-size: 1.2rem;
+}
+
+.menuButtonParent:hover,
+.menuButtonChild:hover {
+    color: #E5E7EB;        /* gray-200 */
+}
+
+.menuButtonChild {
+    font-size: 1.2rem;     /* 자식 버튼은 살짝 작게 */
 }
 
 .dropdownMenu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+  position: absolute;        /* <- 여기 꼭 absolute */
+  top: calc(100%  4px);     /* 메뉴가 버튼 바로 아래 4px 간격 */
+  right: 0;                  /* 우측 정렬 */
+  background-color: #374151; /* gray-700 */
+  border: 1px solid #4b5563; /* gray-600 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  z-index: 10;
+  width: max-content;        /* 내용에 맞춰 가로 크기 */
+  white-space: nowrap;       /* 텍스트 줄 바꿈 방지 */
+}
+
+
+.dropdownItemParent:hover,
+.dropdownItemChild:hover {
+    background-color: #4b5563; /* gray-600 */
 }
 
 .dropdownItemParent {
@@ -102,16 +119,18 @@
 }
 
 /* 댓글 내용 */
-.contentParent {
-    font-size: 1rem;
+.contentParent,
+.contentChild {
     line-height: 1.4;
     margin-bottom: 5px;
 }
 
+.contentParent {
+    font-size: 1rem;
+}
+
 .contentChild {
     font-size: 0.95rem;
-    line-height: 1.4;
-    margin-bottom: 5px;
 }
 
 /* 수정/삭제 영역 공통 */
@@ -136,12 +155,25 @@
     box-sizing: border-box;
 }
 
+.updateActionColumn input {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    background-color: #1f2937;
+    color: #f3f4f6;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .updateTextarea {
     width: 100%;
-    padding: 8px;
+    padding: 4px 8px;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    background-color: #1f2937; /* gray-800 */
+    color: #f3f4f6;
     resize: none;
     box-sizing: border-box;
 }
@@ -156,52 +188,85 @@
 }
 
 .updateActionButton {
-    background-color: #065fd4;
-    color: #fff;
+    background-color: #4f46e5; /* indigo-600 */
+    color: #f3f4f6;
+    padding: 0.5rem 1rem;
     border: none;
-    padding: 6px 0;
-    font-size: 0.9rem;
-    border-radius: 2px;
+    border-radius: 0.5rem;
     cursor: pointer;
-    width: 90%;
-    box-sizing: border-box;
+    transition: background-color 0.2s;
+    width: auto;
+}
+
+.updateActionButton:hover {
+    background-color: #6366f1; /* indigo-500 */
 }
 
 .cancelButton {
-    background-color: #ccc;
-    color: #000;
+    background-color: #6b7280; /* gray-600 */
+    color: #f3f4f6;
+    padding: 0.5rem 1rem;
     border: none;
-    padding: 6px 0;
-    font-size: 0.9rem;
-    border-radius: 2px;
+    border-radius: 0.5rem;
     cursor: pointer;
-    width: 90%;
-    box-sizing: border-box;
+    transition: background-color 0.2s;
+    width: auto;
 }
+
+.cancelButton:hover {
+    background-color: #4b5563; /* gray-700 */
+}
+
 
 /* 삭제 영역 (수정/삭제와 별도) */
 .deletionContainer {
+    border-radius: 0.75rem;
+    padding: 0.75rem;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-    width: 50%;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.deletionContainer input {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    background-color: #1f2937;
+    color: #f3f4f6;
+    width: auto;
+    box-sizing: border-box;
 }
 
 /* 히스토리 영역 */
 .historyContainer {
-    background-color: #f9f9f9;
-    padding: 8px;
-    margin-top: 5px;
-    font-size: 0.85rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    color: #f3f4f6;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+
+.historyContainer > strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #e5e7eb;               /* gray-200 */
 }
 
 .historyList {
-    padding-left: 18px;
+    list-style-position: inside;
+    padding-left: 1rem;
 }
 
 .historyItem {
-    margin-bottom: 3px;
+    margin-bottom: 0.5rem;
+    color: #f3f4f6;               /* gray-100 */
 }
 
 .historyVersion {
@@ -210,30 +275,45 @@
 
 /* 자식(대댓글) 영역 */
 .childToggleButton {
-    font-size: 0.9rem;
-    margin-top: 5px;
-    background: none;
-    border: none;
+    display: inline-block;
+    color: #bfdbfe;
     cursor: pointer;
-    color: #065fd4;
+    transition: color 0.2s;
+    border: none;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+
+/* Hover 시 배경 살짝 강조, 텍스트 컬러 진하게 */
+.childToggleButton:hover {
+    color: #e5e7eb;                 /* gray-200, 호버 시 텍스트를 좀 더 밝게 */
 }
 
 .childContainer {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
 .childReplyContainer {
-    margin-top: 10px;
+    margin-top: 8px;
     margin-left: 20px;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
     width: 100%;
     box-sizing: border-box;
 }
 
+/* 마지막 대댓글의 하단 구분선 제거 */
+.child:last-child {
+  border-bottom: none;
+}
+
 .childReplyInputColumn {
     width: 80%;
+    box-sizing: border-box;
+}
+
+.childReplyActionColumn {
     box-sizing: border-box;
 }
 
@@ -248,20 +328,25 @@
 
 .childReplyTextarea {
     width: 100%;
-    padding: 8px;
+    padding: 4px 8px;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    background-color: #1f2937;
+    color: #f3f4f6;
     resize: none;
     box-sizing: border-box;
 }
 
+
 .childReplyPasswordInput {
-    width: 90%;
-    padding: 6px;
+    width: 75%;
+    padding: 4px 8px;
     font-size: 0.9rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    background-color: #1f2937;
+    color: #f3f4f6;
     box-sizing: border-box;
 }
 
@@ -277,9 +362,14 @@
     box-sizing: border-box;
 }
 
+
+.childReplyButton:hover {
+    background-color: #4b5563;
+}
+
 /* 버튼 그룹 (수정/삭제 버튼 묶음) */
 .buttonGroup {
     display: flex;
     gap: 10px;
-    width: 90%;
+    width: 100%;
 }

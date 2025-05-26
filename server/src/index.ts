@@ -10,7 +10,17 @@ const app = express();
 const PORT = process.env.SERVER_PORT || 3000;
 
 // CORS 활성화
-app.use(cors());
+if (process.env.CORS_MODE === 'dev') {
+  app.use(cors());                                   // 모든 오리진 허용
+} else {
+  app.use(
+    cors({
+      origin: ['https://www.jace-s.com', 'https://jace-s.com'],
+      credentials: true,
+    }),
+  );                                                 // 배포 화이트리스트
+}
+app.options('*', cors()); 
 app.use(express.json());
 
 // DB 초기화, 필요 시 주석 해제
