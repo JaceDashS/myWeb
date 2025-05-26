@@ -1,5 +1,6 @@
 // client/src/components/Header.tsx
 import React, { useState, useEffect, RefObject } from 'react';
+import { useDevice } from '../hooks/useDevice';
 
 type SectionRefs = {
   about: RefObject<HTMLElement>;
@@ -26,6 +27,7 @@ const sections = [
 type SectionKey = typeof sections[number]['key'];
 
 const Header: React.FC<HeaderProps> = ({ sectionRefs }) => {
+  const { isMobile } = useDevice();
   const [active, setActive] = useState<SectionKey>('about');
 
   useEffect(() => {
@@ -50,28 +52,50 @@ const Header: React.FC<HeaderProps> = ({ sectionRefs }) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return (
-    <header className="fixed top-0 left-0 w-full bg-gray-800/90 backdrop-blur z-50">
-      <div className="container mx-auto flex items-center justify-between px-4 py-2">
-        <div className="text-2xl font-bold text-indigo-400">Jace-s.com</div>
-        <nav className="flex space-x-4">
-          {sections.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => scrollToSection(sectionRefs[key])}
-              className={`px-3 py-1 rounded-md transition-colors font-medium ${
-                active === key
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-700'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
-      </div>
-    </header>
-  );
+  if (isMobile) {
+    return (
+      <header className="fixed top-0 left-0 w-full bg-gray-800/90 backdrop-blur z-50">
+        <div className="container mx-auto flex items-center justify-between px-4 py-2">
+          <nav className="flex space-x-4">
+            {sections.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => scrollToSection(sectionRefs[key])}
+                className={`px-3 py-1 rounded-md transition-colors font-medium ${active === key
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                  }`}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </header>
+    );
+  } else {
+    return (
+      <header className="fixed top-0 left-0 w-full bg-gray-800/90 backdrop-blur z-50">
+        <div className="container mx-auto flex items-center justify-between px-4 py-2">
+          <div className="text-2xl font-bold text-indigo-400">Jace-s.com</div>
+          <nav className="flex space-x-4">
+            {sections.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => scrollToSection(sectionRefs[key])}
+                className={`px-3 py-1 rounded-md transition-colors font-medium ${active === key
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                  }`}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </header>
+    );
+  }
 };
 
 export default Header;

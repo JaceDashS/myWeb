@@ -66,7 +66,6 @@ const Comments: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
 
       <main className="container mx-auto px-6 pt-4 pb-8">
-        <h1 className="text-3xl font-bold mb-4">Comments</h1>
         <p className="text-gray-400 mb-6">
           * Your username is generated based on a hash of your IP address.
         </p>

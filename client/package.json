@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "cross-env PORT=8080 react-scripts start", 
+    "start": "cross-env PORT=8080 react-scripts start",
     "tailwind:dev": "tailwindcss -i ./src/index.css -o ./src/tailwind.css --watch",
-    "dev": "concurrently \"npm run tailwind:dev\" \"npm start\"", 
+    "dev": "concurrently \"npm run tailwind:dev\" \"npm start\"",
     "tailwind:build": "tailwindcss -i ./src/index.css -o ./src/tailwind.css --minify",
     "build": "npm run tailwind:build && react-scripts build",
     "test": "react-scripts test",
