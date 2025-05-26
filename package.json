@@ -9,19 +9,24 @@
     "install:client": "cd ./client && npm install",
     "install:server": "cd ./server && npm install",
     "install:nginx": "cd ./client/nginx && npm install",
+    "build:server": "cd server && npm run build",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "dev:client": "cd ./client && npm start",
+    "dev:client": "cd ./client && npm run dev",
     "dev:server": "cd ./server && npm run dev",
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "start:client": "docker run -d -p 80:80 react_client",
     "start:server": "docker run -d -p 3000:3000 express_server",
-    "stop:dev": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :3000') do taskkill /PID %a /F & for /f \"tokens=5\" %b in ('netstat -ano ^| findstr :8080') do taskkill /PID %b /F"
+    "stop:dev": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :3000') do taskkill /PID %a /F & for /f \"tokens=5\" %b in ('netstat -ano ^| findstr :8080') do taskkill /PID %b /F",
+    "docker:compose:no-cache": "npm run build:server && docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache && docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "docker:compose": "npm run build:server && docker compose -f docker-compose.yml -f docker-compose.dev.yml build && docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "zip": "npm run build:server && npx rimraf node_modules client/node_modules server/node_modules && powershell -Command \"Compress-Archive -Path . -DestinationPath ../myweb.zip\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.1.2",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "rimraf": "^6.0.1"
   }
 }

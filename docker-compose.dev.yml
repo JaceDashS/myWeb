@@ -1,0 +1,8 @@
+services:
+  client:
+    # ▶ Dev Nginx conf 덮어쓰기
+    volumes:
+      - ./client/nginx/default.dev.conf:/etc/nginx/conf.d/default.conf
+  server:
+    environment:
+      - CORS_MODE=docker

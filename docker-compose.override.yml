@@ -1,0 +1,19 @@
+services:
+  client:
+    # # ▶ Dev Nginx conf 덮어쓰기
+    # volumes:
+    #   - ./client/nginx/default.dev.conf:/etc/nginx/conf.d/default.conf
+
+    # ▶ 빌드 ARG를 **문자열**로 직접 지정
+    build:
+      context: ./client
+      args:
+        REACT_APP_API_URL: "https://www.jace-s.com/api/"    # ← 변수 치환 X
+
+    # ▶ 런타임 변수 역시 직접 지정
+    environment:
+      - REACT_APP_API_URL=https://www.jace-s.com/api/
+
+  server:
+    environment:
+      - CORS_MODE=prod
