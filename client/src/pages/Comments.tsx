@@ -19,7 +19,7 @@ const Comments: React.FC = () => {
     setIsLoading(true);
     try {
       const res = await fetch(`${apiUrl}comments?page=${page}&limit=${limit}`);
-      console.log("Comment apiUrl: " + `${apiUrl}comments?page=${page}&limit=${limit}`);
+      // console.log("Comment apiUrl: " + `${apiUrl}comments?page=${page}&limit=${limit}`);
       const data = await res.json();
       if (res.ok) {
         setComments(data.data);
