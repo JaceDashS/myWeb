@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { FaAndroid, FaGlobe, FaPlay, FaGithub } from 'react-icons/fa';
+import { ImageAssets } from '../config/imageAssets';
 
 interface App {
   title: string;
@@ -18,7 +19,7 @@ const appsData: App[] = [
   {
     title: 'Squat Balancer',
     description: 'A service for optimizing your squat posture.',
-    image: '/images/Squat-Balancer.png',
+    image: ImageAssets.squatBalancer,
     apkUrl: 'https://s3.us-east-1.amazonaws.com/cdn.jace-s.com/squat-balancer.apk',
     webUrl: 'https://squat-balancer.netlify.app/',
     demoUrl: 'https://www.youtube.com/watch?v=-wBZ6eyQMms',
@@ -27,7 +28,7 @@ const appsData: App[] = [
   {
     title: 'Transformer Attention Visualizer',
     description: 'User friendly attention visualizer',
-    image: '/images/Transformer-Attention-Visualizer.png',
+    image: ImageAssets.transformerAttentionVisualizer,
     webUrl: 'https://bert-attention-visualizer.vercel.app/',
     githubUrl: 'https://github.com/Team-Lasso/bert-attention-visualizer',
   },

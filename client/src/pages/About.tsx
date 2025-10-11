@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPhone, FaEnvelope, FaInstagram, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useDevice } from '../hooks/useDevice';
+import { ImageAssets } from '../config/imageAssets';
 
 interface Skill {
     title: string;
@@ -276,14 +277,14 @@ const About: React.FC = () => {
                                 <h2 className="text-xl font-semibold text-gray-100">Jung Soo Shin</h2>
                             </div>
                             <img
-                                src="/images/profile.jpg"
+                                src={ImageAssets.profile}
                                 alt="Profile"
                                 className="w-24 h-24 rounded-full border-2 border-gray-700"
                             />
                         </div>
                         <div className="p-2 mx-auto">
                             <img
-                                src="/images/output-onlinepngtools.png"
+                                src={ImageAssets.sbuLogo}
                                 alt="Stony Brook University Logo"
                                 className="w-40 h-auto filter invert brightness-200"
                             />
@@ -405,7 +406,7 @@ const About: React.FC = () => {
                                             onClick={toggleAWS}
                                         >
                                             <img
-                                                src="/images/AWS-Certified-Cloud-Practitioner.png"
+                                                src={ImageAssets.awsCertificateBadge}
                                                 alt="AWS Certified Cloud Practitioner"
                                                 className="h-32 mx-auto"
                                             />
@@ -415,7 +416,7 @@ const About: React.FC = () => {
                                         {showAWS && (
                                             <div className="mt-2 space-y-2">
                                                 <img
-                                                    src="/images/AWS-Certified-Cloud-Practitioner-certificate.png"
+                                                    src={ImageAssets.awsCertificate}
                                                     alt="AWS-Certified-Cloud-Practitioner-certificate"
                                                     className="w-full rounded"
                                                 />
@@ -428,7 +429,7 @@ const About: React.FC = () => {
                                             onClick={toggleJLPT}
                                         >
                                             <img
-                                                src="/images/Japanese-Language_Proficiency_Test_logo.png"
+                                                src={ImageAssets.jlptLogo}
                                                 alt="Japanese-Language_Proficiency_Test"
                                                 className="h-32 mx-auto"
                                             />
@@ -438,12 +439,12 @@ const About: React.FC = () => {
                                         {showJLPT && (
                                             <div className="mt-2 space-y-2">
                                                 <img
-                                                    src="/images/jlpt_1.jpg"
+                                                    src={ImageAssets.jlptCertificate1}
                                                     alt="JLPT Certificate 1"
                                                     className="w-full rounded"
                                                 />
                                                 <img
-                                                    src="/images/jlpt_2.jpg"
+                                                    src={ImageAssets.jlptCertificate2}
                                                     alt="JLPT Certificate 2"
                                                     className="w-full rounded"
                                                 />
@@ -507,14 +508,14 @@ const About: React.FC = () => {
                                     <h2 className="text-2xl md:text-3xl font-semibold text-gray-100">Jung Soo Shin</h2>
                                 </div>
                                 <img
-                                    src="/images/profile.jpg"
+                                    src={ImageAssets.profile}
                                     alt="Profile"
                                     className="w-36 h-36 rounded-full border-4 border-gray-700"
                                 />
                             </div>
                             <div className="p-2 rounded-md mx-auto">
                                 <img
-                                    src="/images/output-onlinepngtools.png"
+                                    src={ImageAssets.sbuLogo}
                                     alt="Stony Brook University Logo"
                                     className="w-32 h-auto md:w-80 filter invert brightness-200"
                                 />
@@ -627,7 +628,7 @@ const About: React.FC = () => {
                                         onClick={toggleAWS}
                                     >
                                         <img
-                                            src="/images/AWS-Certified-Cloud-Practitioner.png"
+                                            src={ImageAssets.awsCertificateBadge}
                                             alt="AWS Certified Cloud Practitioner"
                                             className="h-40 mx-auto"
                                         />
@@ -637,7 +638,7 @@ const About: React.FC = () => {
                                         onClick={toggleJLPT}
                                     >
                                         <img
-                                            src="/images/Japanese-Language_Proficiency_Test_logo.png"
+                                            src={ImageAssets.jlptLogo}
                                             alt="Japanese-Language_Proficiency_Test"
                                             className="h-40 mx-auto"
                                         />
@@ -657,12 +658,12 @@ const About: React.FC = () => {
                                     <div className="certificate-details bg-gray-800 p-4 rounded-lg">
                                         <div className="flex space-x-4">
                                             <img
-                                                src="/images/jlpt_1.jpg"
+                                                src={ImageAssets.jlptCertificate1}
                                                 alt="JLPT Certificate 1"
                                                 className="w-1/2 rounded"
                                             />
                                             <img
-                                                src="/images/jlpt_2.jpg"
+                                                src={ImageAssets.jlptCertificate2}
                                                 alt="JLPT Certificate 2"
                                                 className="w-1/2 rounded"
                                             />
