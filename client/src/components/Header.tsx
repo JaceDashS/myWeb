@@ -16,11 +16,11 @@ interface HeaderProps {
 }
 
 const sections = [
+  { key: 'apps', label: 'Apps' },
+  { key: 'comments', label: 'Comments/Feedback' },
   { key: 'about', label: 'About' },
   // { key: 'skills', label: 'Skills' },
   // { key: 'certificate', label: 'Certificates' },
-  { key: 'apps', label: 'Apps' },
-  { key: 'comments', label: 'Comments/Feedback' },
   // { key: 'contact', label: 'Contact' },
 ] as const;
 
@@ -28,7 +28,7 @@ type SectionKey = typeof sections[number]['key'];
 
 const Header: React.FC<HeaderProps> = ({ sectionRefs }) => {
   const { isMobile } = useDevice();
-  const [active, setActive] = useState<SectionKey>('about');
+  const [active, setActive] = useState<SectionKey>('apps');
 
   useEffect(() => {
     const handleScroll = () => {

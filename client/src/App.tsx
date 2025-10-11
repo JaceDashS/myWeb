@@ -44,15 +44,8 @@ const App: React.FC = () => {
       {/* 본문 */}
       <main className="pt-16 flex-1 space-y-24">
         <section
-          ref={aboutRef}
-          className="-mt-16 scroll-mt-16 container mx-auto px-6"
-        >
-          <About />
-        </section>
-
-        <section
           ref={appsRef}
-          className="scroll-mt-16 container mx-auto px-6"
+          className="-mt-16 scroll-mt-16 container mx-auto px-6"
         >
           <Apps />
         </section>
@@ -62,6 +55,13 @@ const App: React.FC = () => {
           className="scroll-mt-16 container mx-auto px-6"
         >
           <Comments />
+        </section>
+
+        <section
+          ref={aboutRef}
+          className="scroll-mt-16 container mx-auto px-6"
+        >
+          <About />
         </section>
       </main>
 
