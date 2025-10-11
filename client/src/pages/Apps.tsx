@@ -45,7 +45,7 @@ const Apps: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
       {/* <Header /> */}
       <main className="flex-1 container mx-auto px-0 py-4">
-        <h1 className="text-3xl font-bold mb-6">My Applications</h1>
+        <h1 className="text-3xl font-bold mb-6">Applications</h1>
         <div className="space-y-6">
           {appsData.map(app => (
             <div key={app.title} className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-6">
