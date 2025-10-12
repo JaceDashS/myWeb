@@ -11,6 +11,7 @@ export const ImageAssets = {
   // AWS Certificates
   awsCertificateBadge: `${GITHUB_ASSETS_BASE_URL}/AWS-Certified-Cloud-Practitioner.png`,
   awsCertificate: `${GITHUB_ASSETS_BASE_URL}/AWS-Certified-Cloud-Practitioner-certificate.png`,
+  awsCertificatePdf: `${GITHUB_ASSETS_BASE_URL}/AWS-Certified-Cloud-Practitioner-certificate.pdf`,
 
   // JLPT Certificates
   jlptLogo: `${GITHUB_ASSETS_BASE_URL}/Japanese-Language_Proficiency_Test_logo.png`,

@@ -648,7 +648,7 @@ const About: React.FC = () => {
                                 {showAWS && (
                                     <div className="w-full aspect-[297/250] relative rounded-md overflow-hidden">
                                         <iframe
-                                            src="/images/AWS-Certified-Cloud-Practitioner-certificate.pdf#page=1&view=FitH"
+                                            src={`${ImageAssets.awsCertificatePdf}#page=1&view=FitH`}
                                             className="absolute inset-0 w-full h-full border-0"
                                         />
                                     </div>
