@@ -83,6 +83,8 @@ const About: React.FC = () => {
     const [slideIndex, setSlideIndex] = useState(0);
     const [dragOffset, setDragOffset] = useState(0);
     const [viewportW, setViewportW] = useState(0);
+    const [containerHeight, setContainerHeight] = useState<number>(0);
+    
     useEffect(() => {
         const update = () => setViewportW(sectionRef.current?.clientWidth || 0);
         update();
@@ -90,14 +92,44 @@ const About: React.FC = () => {
         return () => window.removeEventListener('resize', update);
     }, []);
 
+    // 높이 업데이트 함수
+    const updateSlideHeight = () => {
+        setTimeout(() => {
+            if (sliderRef.current) {
+                const currentSlide = sliderRef.current.children[slideIndex] as HTMLElement;
+                if (currentSlide) {
+                    setContainerHeight(currentSlide.scrollHeight);
+                }
+            }
+        }, 100);
+    };
+
+    // 슬라이드 변경 시 높이 조정
+    useEffect(() => {
+        updateSlideHeight();
+    }, [slideIndex]);
+
+    // 초기 마운트 시 높이 설정
+    useEffect(() => {
+        updateSlideHeight();
+    }, []);
+
     // ④ 포인터 핸들러
+    const startYRef = useRef(0);
     const handleDown = (e: React.PointerEvent) => {
         draggingRef.current = true;
         startXRef.current = e.clientX;
+        startYRef.current = e.clientY;
     };
     const handleMove = (e: React.PointerEvent) => {
         if (!draggingRef.current) return;
-        setDragOffset(e.clientX - startXRef.current);
+        const deltaX = Math.abs(e.clientX - startXRef.current);
+        const deltaY = Math.abs(e.clientY - startYRef.current);
+        
+        // 수평 움직임이 수직 움직임보다 크면 스와이프로 처리
+        if (deltaX > deltaY) {
+            setDragOffset(e.clientX - startXRef.current);
+        }
     };
     const handleUp = () => {
         if (!draggingRef.current) return;
@@ -255,6 +287,7 @@ const About: React.FC = () => {
             if (next) setShowJLPT(false);
             return next;
         });
+        updateSlideHeight();
     };
     const toggleJLPT = () => {
         setShowJLPT(prev => {
@@ -262,6 +295,7 @@ const About: React.FC = () => {
             if (next) setShowAWS(false);
             return next;
         });
+        updateSlideHeight();
     };
     // …(위에 hooks, state, handlers 정의 부분 생략)…  
 
@@ -304,12 +338,12 @@ const About: React.FC = () => {
                 {/* ─── 슬라이드 전체 컨테이너 ─── */}
                 <section
                     ref={sectionRef}
-                    style={{ touchAction: 'pan-y' }}
-                    onPointerDown={handleDown}
-                    onPointerMove={handleMove}
-                    onPointerUp={handleUp}
-                    onPointerCancel={handleUp}
-                    className="relative overflow-hidden bg-gray-800 rounded-xl mb-4"
+                    style={{ 
+                        height: containerHeight > 0 ? `${containerHeight}px` : 'auto',
+                        transition: 'height 0.3s ease-out',
+                        overflowY: 'hidden'
+                    }}
+                    className="relative overflow-x-hidden bg-gray-800 rounded-xl mb-4"
                 >
                     {/* 좌 화살표 */}
                     <button
@@ -323,10 +357,15 @@ const About: React.FC = () => {
                     {/* 패널 그룹 */}
                     <div
                         ref={sliderRef}
-                        className="flex transition-transform duration-200 ease-out"
+                        className="flex items-start transition-transform duration-200 ease-out"
                         style={{
-                            transform: `translateX(${-slideIndex * viewportW + dragOffset}px)`
+                            transform: `translateX(${-slideIndex * viewportW + dragOffset}px)`,
+                            touchAction: 'none'
                         }}
+                        onPointerDown={handleDown}
+                        onPointerMove={handleMove}
+                        onPointerUp={handleUp}
+                        onPointerCancel={handleUp}
                     >
                         {tabs.map(tab => (
                             <div key={tab} className="w-full flex-shrink-0 px-3 py-4">
