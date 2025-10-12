@@ -49,7 +49,7 @@ export async function getAllApps(page: number, limit: number): Promise<{ apps: A
         UPDATED_AT
       FROM APPS
       WHERE IS_ACTIVE = 1
-      ORDER BY DISPLAY_ORDER ASC, ID ASC
+      ORDER BY DISPLAY_ORDER DESC, ID DESC
       OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
     `;
 
