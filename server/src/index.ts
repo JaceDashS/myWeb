@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import axios from "axios";
 import cors from 'cors';
 import commentRoutes from './routes/commentRoutes';
-import { initDB } from './utils/db';
+import { initCommentsTable, initAppsTable } from './utils/db';
 import { errorHandler } from './handlers/errorHandler';
 
 const app = express();
@@ -24,7 +24,9 @@ app.options('*', cors());
 app.use(express.json());
 
 // DB 초기화, 필요 시 주석 해제
-// initializeDatabase();
+// **매우 신중하게 사용할 것. 테이블 초기화는 한 번만 해야 함. 이중주석 해제 시 데이터 손실 발생!** 
+// // initCommentsTable();  // COMMENTS 테이블만 초기화
+// // initAppsTable();      // APPS 테이블만 초기화
 
 // 라우트 등록
 app.use('/comments', commentRoutes);
@@ -79,14 +81,3 @@ process.on('SIGINT', () => {
     console.log('HTTP server closed')
   })
 }) 
-
-// DB 초기화 함수
-async function initializeDatabase(): Promise<void> {
-  try {
-    await initDB();
-    console.log('DB 초기화 완료');
-  } catch (err) {
-    console.error('DB 초기화 실패:', err);
-    process.exit(1);
-  }
-}
