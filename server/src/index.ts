@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import axios from "axios";
 import cors from 'cors';
 import commentRoutes from './routes/commentRoutes';
+import appRoutes from './routes/appRoutes';
 import { initCommentsTable, initAppsTable } from './utils/db';
 import { errorHandler } from './handlers/errorHandler';
 
@@ -30,6 +31,7 @@ app.use(express.json());
 
 // 라우트 등록
 app.use('/comments', commentRoutes);
+app.use('/apps', appRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).send('OK\n'); // 정상 동작 시 200 응답
