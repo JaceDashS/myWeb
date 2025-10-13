@@ -36,7 +36,7 @@ const Apps: React.FC = () => {
       const res = await fetch(`${apiUrl}apps?page=${page}&limit=${limit}`);
       const data = await res.json();
       if (res.ok) {
-        console.log('data.apps: ', data.apps);
+        // console.log('data.apps: ', data.apps);
         setApps(data.apps);
         setTotalCount(data.totalCount);
       } else {

@@ -28,7 +28,7 @@ export async function createCommentController(req: Request, res: Response): Prom
 
   try {
     const ip = getClientIP(req);
-    console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
+    // console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
     const hashedUserIP = getHashedIP(ip);
 
     const newId = await createComment(
@@ -61,7 +61,7 @@ export async function updateCommentController(req: Request, res: Response): Prom
 
   try {
     const ip = getClientIP(req);
-    console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
+    // console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
     const hashedUserIP = getHashedIP(ip);
 
     const updatedId = await updateComment(
@@ -91,7 +91,7 @@ export async function deleteCommentController(req: Request, res: Response): Prom
   try {
     // 1️⃣ 요청한 사용자의 IP를 해싱
     const ip = getClientIP(req);
-    console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
+    // console.log(`클라이언트 IP: ${ip}`); // 디버깅 로그
     const hashedUserIP = getHashedIP(ip);
 
     // 2️⃣ `deleteComment` 호출 시 `newHashedUserIP` 추가

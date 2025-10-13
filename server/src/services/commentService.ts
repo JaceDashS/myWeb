@@ -22,7 +22,7 @@ export async function createComment(
   let connection;
   try {
     connection = await getConnection();
-    console.log('parentHeaderId:', parentHeaderId, 'content:', content, 'hashedUserIP:', hashedUserIP, 'userPassword:', userPassword);
+    // console.log('parentHeaderId:', parentHeaderId, 'content:', content, 'hashedUserIP:', hashedUserIP, 'userPassword:', userPassword);
 
     // 비밀번호 해싱
     const hashedPw = await hashPassword(userPassword);
@@ -78,7 +78,7 @@ export async function createComment(
       RETURNING ID INTO :insertedId
     `;
 
-    console.log('insertSql:', insertSql);
+    // console.log('insertSql:', insertSql);
     const insertResult = await connection.execute<{
       insertedId: number[];
     }>(
@@ -93,7 +93,7 @@ export async function createComment(
       { autoCommit: false }
     );
 
-    console.log('insertResult:', insertResult);
+    // console.log('insertResult:', insertResult);
 
     if (!insertResult.outBinds || !insertResult.outBinds.insertedId) {
       throw new Error('댓글 생성 실패: insertedId가 없습니다.');
@@ -101,7 +101,7 @@ export async function createComment(
 
     const newId = insertResult.outBinds.insertedId[0];
 
-    console.log('newId:', newId);
+    // console.log('newId:', newId);
 
     const updateParentSql = `
         UPDATE COMMENTS
