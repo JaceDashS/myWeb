@@ -31,7 +31,7 @@ const Footer: React.FC = () => (
           <FaYoutube size={20} />
         </a>
         <a
-          href="https://github.com/Jace0827"
+          href="https://github.com/Jacedashs"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
