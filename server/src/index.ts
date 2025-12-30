@@ -4,19 +4,39 @@ import axios from "axios";
 import cors from 'cors';
 import commentRoutes from './routes/commentRoutes';
 import appRoutes from './routes/appRoutes';
+import gptVisualizerRoutes from './routes/gptVisualizerRoutes';
+import externalHealthRoutes from './routes/externalHealthRoutes';
 import { initCommentsTable, initAppsTable } from './utils/db';
 import { errorHandler } from './handlers/errorHandler';
+import { getClientIP } from './utils/requestUtils';
 
 const app = express();
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = parseInt(process.env.SERVER_PORT || '3000', 10);
 
 // CORS 활성화
 if (process.env.CORS_MODE === 'dev') {
   app.use(cors());                                   // 모든 오리진 허용
 } else {
+  // 기본 허용 오리진
+  const allowedOrigins: string[] = ['https://www.jace-s.com', 'https://jace-s.com'];
+  
+  // 환경변수에서 추가 오리진 읽기 (콤마로 구분)
+  const additionalOrigins = process.env.ALLOWED_ORIGINS;
+  if (additionalOrigins) {
+    const origins = additionalOrigins.split(',').map(origin => origin.trim()).filter(origin => origin);
+    allowedOrigins.push(...origins);
+  }
+  
+  // GPT Visualizer 클라이언트 URL 추가
+  const gptVisualizerClient = process.env.GPT_VISUALIZER_CLIENT;
+  if (gptVisualizerClient) {
+    const clientUrls = gptVisualizerClient.split(',').map(url => url.trim()).filter(url => url);
+    allowedOrigins.push(...clientUrls);
+  }
+  
   app.use(
     cors({
-      origin: ['https://www.jace-s.com', 'https://jace-s.com'],
+      origin: allowedOrigins,
       credentials: true,
     }),
   );                                                 // 배포 화이트리스트
@@ -30,11 +50,24 @@ app.use(express.json());
 // // initAppsTable();      // APPS 테이블만 초기화
 
 // 라우트 등록
+// 내부 API 라우트 (우선순위 높음)
 app.use('/comments', commentRoutes);
 app.use('/apps', appRoutes);
+app.use('/gptvisualizer', gptVisualizerRoutes);
+
+// 외부 서비스 헬스체크
+app.use('/external', externalHealthRoutes);
 
 app.get('/health', (req, res) => {
-  res.status(200).send('OK\n'); // 정상 동작 시 200 응답
+  const isDev = process.env.CORS_MODE === 'dev';
+  const nodeEnv = process.env.NODE_ENV || 'development';
+  
+  res.status(200).json({
+    status: 'OK',
+    mode: isDev ? 'dev' : 'production',
+    nodeEnv: nodeEnv,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // 기본 라우트 설정
@@ -67,8 +100,9 @@ app.get("/ip", async (req, res) => {
 app.use(errorHandler);
 
 // 서버 실행
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+const HOST = process.env.SERVER_HOST || '0.0.0.0';
+const server = app.listen(PORT, HOST, () => {
+  console.log(`Server running on ${HOST}:${PORT}`);
 });
 
 process.on('SIGTERM', () => {
