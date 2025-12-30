@@ -63,7 +63,8 @@ const Apps: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
       {/* <Header /> */}
       <main className="flex-1 container mx-auto px-0 py-4">
-        <h1 className="text-3xl font-bold mb-6">Applications</h1>
+        <div className="pt-12">
+          <h1 className="text-3xl font-bold mb-6">Applications</h1>
 
         {isLoading ? (
           <div className="flex justify-center py-10">
@@ -166,6 +167,7 @@ const Apps: React.FC = () => {
         )}
       </>
     )}
+        </div>
       </main>
       {/* <Footer /> */}
     </div>

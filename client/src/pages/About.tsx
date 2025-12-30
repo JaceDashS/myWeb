@@ -3,11 +3,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaPhone, FaEnvelope, FaInstagram, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useDevice } from '../hooks/useDevice';
 import { ImageAssets } from '../config/imageAssets';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface Skill {
     title: string;
     level: number; // percent (0-100)
     demoUrl?: string;
+}
+
+interface AboutResponse {
+    en: string;
+    ko?: string;
+    ja?: string;
+    zh?: string;
 }
 
 const tabs = ['Description', 'Skills', 'Certificates', 'Contact'];
@@ -55,9 +63,67 @@ const categoryRows = [
 
 const About: React.FC = () => {
     const { width, isMobile } = useDevice();
+    const { language } = useLanguage();
     // console.log('Window width:', width, 'isMobile:', isMobile);
 
+    // 언어별 이름
+    const getNameByLanguage = (lang: string): string => {
+        switch (lang) {
+            case 'zh':
+            case 'ja':
+                return '申 貞秀';
+            case 'ko':
+                return '신정수';
+            case 'en':
+            default:
+                return 'Jay Shin';
+        }
+    };
+
+    // 디버깅: 이미지 URL 확인
+    // useEffect(() => {
+    //     console.log('[About] ImageAssets.profile:', ImageAssets.profile);
+    //     console.log('[About] ImageAssets.sbuLogo:', ImageAssets.sbuLogo);
+    // }, []);
+
     const [activeTab, setActiveTab] = useState<string>('Description');
+    const [aboutData, setAboutData] = useState<AboutResponse | null>(null);
+    const [isLoadingDescription, setIsLoadingDescription] = useState(false);
+
+    // Description JSON 로드
+    useEffect(() => {
+        const fetchDescription = async () => {
+            setIsLoadingDescription(true);
+            try {
+                const response = await fetch(ImageAssets.profileOverview);
+                if (response.ok) {
+                    const data: AboutResponse = await response.json();
+                    setAboutData(data);
+                    // console.log('[About] Description loaded from:', ImageAssets.profileOverview);
+                } else {
+                    console.error('[About] Failed to load description, status:', response.status);
+                    // Fallback: 하드코딩된 텍스트
+                    setAboutData({
+                        en: 'I hold a Bachelor of Science in Computer Science from Stony Brook University, with a specialization in Artificial Intelligence and Data Science.\n\nBeing fluent in English, Korean, and Japanese allows me to access a wide range of technical resources, documentation, and communities across different languages.\n\nDriven by curiosity, I\'m always eager to explore emerging tools and frameworks that push the boundaries of what technology can do.\n\nOutside of tech, I enjoy staying active and expressing myself through music. I mainly play the guitar, have studied music theory, and composed several original pieces.'
+                    });
+                }
+            } catch (error) {
+                console.error('[About] Failed to load description:', error);
+                // Fallback: 하드코딩된 텍스트
+                setAboutData({
+                    en: 'I hold a Bachelor of Science in Computer Science from Stony Brook University, with a specialization in Artificial Intelligence and Data Science.\n\nBeing fluent in English, Korean, and Japanese allows me to access a wide range of technical resources, documentation, and communities across different languages.\n\nDriven by curiosity, I\'m always eager to explore emerging tools and frameworks that push the boundaries of what technology can do.\n\nOutside of tech, I enjoy staying active and expressing myself through music. I mainly play the guitar, have studied music theory, and composed several original pieces.'
+                });
+            } finally {
+                setIsLoadingDescription(false);
+            }
+        };
+        fetchDescription();
+    }, []);
+
+    // 언어에 따라 Description 텍스트 선택
+    const descriptionText = aboutData 
+        ? (aboutData[language] || aboutData.en || '')
+        : '';
 
     const tabsNavRef = useRef<HTMLDivElement>(null);
     // 탭 네비게이션을 좌우로 부드럽게 스크롤하기 위한 함수
@@ -302,19 +368,17 @@ const About: React.FC = () => {
     if (isMobile) {
         return (
             <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col px-4 py-6">
+                <div className="pt-12">
                 {/* ─── 프로필 카드 ─── */}
                 <aside className="mb-4">
                     <div className="bg-gray-800 p-3 rounded-xl shadow-md space-y-3">
-                        <div className="flex items-center justify-between">
-                            <div className="flex-1 pr-2">
-                                <h2 className="text-base font-medium text-indigo-300">Junior Developer</h2>
-                                <h2 className="text-xl font-semibold text-gray-100">Jung Soo Shin</h2>
-                            </div>
+                        <div className="flex flex-col items-center">
                             <img
                                 src={ImageAssets.profile}
                                 alt="Profile"
-                                className="w-24 h-24 rounded-full border-2 border-gray-700"
+                                className="w-24 h-24 rounded-full border-2 border-gray-700 mb-3"
                             />
+                            <h2 className="text-xl font-semibold text-gray-100 text-center">{getNameByLanguage(language)}</h2>
                         </div>
                         <div className="p-2 mx-auto">
                             <img
@@ -375,15 +439,18 @@ const About: React.FC = () => {
                                 {/* 탭별 콘텐츠 */}
                                 {tab === 'Description' && (
                                     <div>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            I hold a Bachelor of Science in Computer Science from Stony Brook University, with a specialization in Artificial Intelligence and Data Science.
-                                            <br />
-                                            Being fluent in English, Korean, and Japanese allows me to access a wide range of technical resources, documentation, and communities across different languages.
-                                            <br />
-                                            Driven by curiosity, I’m always eager to explore emerging tools and frameworks that push the boundaries of what technology can do.
-                                            <br />
-                                            Outside of tech, I enjoy staying active and expressing myself through music. I mainly play the guitar, have studied music theory, and composed several original pieces.
-                                        </p>
+                                        {isLoadingDescription ? (
+                                            <p className="text-gray-300 text-sm">Loading...</p>
+                                        ) : (
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                {descriptionText.split('\n\n').map((paragraph, idx) => (
+                                                    <React.Fragment key={idx}>
+                                                        {paragraph}
+                                                        {idx < descriptionText.split('\n\n').length - 1 && <><br /><br /></>}
+                                                    </React.Fragment>
+                                                ))}
+                                            </p>
+                                        )}
                                     </div>
                                 )}
 
@@ -495,12 +562,6 @@ const About: React.FC = () => {
                                 {tab === 'Contact' && (
                                     <div className="space-y-3 text-sm">
                                         <p className="flex items-center text-gray-300">
-                                            <FaPhone className="mr-2 text-indigo-400" />
-                                            <a href="tel:8452904720" className="text-gray-100">
-                                                845-290-4720
-                                            </a>
-                                        </p>
-                                        <p className="flex items-center text-gray-300">
                                             <FaEnvelope className="mr-2 text-indigo-400" />
                                             <a href="mailto:jungsoo.shin0827@gmail.com" className="text-gray-100">
                                                 jungsoo.shin0827@gmail.com
@@ -532,25 +593,24 @@ const About: React.FC = () => {
                         <FaChevronRight />
                     </button>
                 </section>
+                </div>
             </div>
         );
     }
     else {
         return (
             <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
-                <main className="flex-1 container mx-auto px-0 py-10 lg:flex lg:items-start lg:space-x-8">
+                <main className="flex-1 container mx-auto px-0 py-10">
+                    <div className="pt-12 lg:flex lg:items-start lg:space-x-8">
                     <aside className="self-start lg:w-1/2 mb-6 lg:mb-0 lg:mr-6">
                         <div className="bg-gray-800 p-4 rounded-2xl shadow-lg space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex-1 pr-4">
-                                    <h2 className="text-indigo-300 text-lg md:text-xl font-medium">Junior Developer</h2>
-                                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-100">Jung Soo Shin</h2>
-                                </div>
+                            <div className="flex flex-col items-center">
                                 <img
                                     src={ImageAssets.profile}
                                     alt="Profile"
-                                    className="w-36 h-36 rounded-full border-4 border-gray-700"
+                                    className="w-36 h-36 rounded-full border-4 border-gray-700 mb-4"
                                 />
+                                <h2 className="text-2xl md:text-3xl font-semibold text-gray-100 text-center">{getNameByLanguage(language)}</h2>
                             </div>
                             <div className="p-2 rounded-md mx-auto">
                                 <img
@@ -593,16 +653,18 @@ const About: React.FC = () => {
 
                         {activeTab === 'Description' && (
                             <div>
-                                <h3 className="text-2xl md:text-3xl font-semibold">Description</h3>
-                                <p className="mt-2 leading-relaxed text-gray-300 text-base md:text-lg">
-                                    I hold a Bachelor of Science in Computer Science from Stony Brook University, with a specialization in Artificial Intelligence and Data Science.
-                                    <br />
-                                    Being fluent in English, Korean, and Japanese allows me to access a wide range of technical resources, documentation, and communities across different languages. This gives me a unique advantage in learning new technologies faster and more effectively than others.
-                                    <br />
-                                    Driven by curiosity, I’m always eager to explore emerging tools and frameworks that push the boundaries of what technology can do.
-                                    <br />
-                                    Outside of tech, I enjoy staying active and expressing myself through music. I mainly play the guitar, have studied music theory, and composed several original pieces.
-                                </p>
+                                {isLoadingDescription ? (
+                                    <p className="text-gray-300">Loading...</p>
+                                ) : (
+                                    <p className="leading-relaxed text-gray-300 text-base md:text-lg">
+                                        {descriptionText.split('\n\n').map((paragraph, idx) => (
+                                            <React.Fragment key={idx}>
+                                                {paragraph}
+                                                {idx < descriptionText.split('\n\n').length - 1 && <><br /><br /></>}
+                                            </React.Fragment>
+                                        ))}
+                                    </p>
+                                )}
                             </div>
                         )}
 
@@ -685,10 +747,12 @@ const About: React.FC = () => {
                                 </div>
 
                                 {showAWS && (
-                                    <div className="w-full aspect-[297/250] relative rounded-md overflow-hidden">
+                                    <div className="w-full" style={{ height: '600px' }}>
                                         <iframe
-                                            src={`${ImageAssets.awsCertificatePdf}#page=1&view=FitH`}
-                                            className="absolute inset-0 w-full h-full border-0"
+                                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(ImageAssets.awsCertificatePdf)}&embedded=true`}
+                                            className="w-full h-full rounded-md border-0"
+                                            title="AWS Certified Cloud Practitioner Certificate"
+                                            style={{ minHeight: '600px' }}
                                         />
                                     </div>
                                 )}
@@ -717,13 +781,6 @@ const About: React.FC = () => {
                                 <h3 className="text-2xl md:text-3xl font-semibold mb-4">Contact</h3>
                                 <div className="space-y-4">
                                     <p className="flex items-center text-gray-300">
-                                        <FaPhone className="mr-2 text-indigo-400" />
-                                        <strong>Phone:</strong>&nbsp;
-                                        <a href="tel:8452904720" className="text-gray-100 hover:text-white">
-                                            845-290-4720
-                                        </a>
-                                    </p>
-                                    <p className="flex items-center text-gray-300">
                                         <FaEnvelope className="mr-2 text-indigo-400" />
                                         <strong>Email:</strong>&nbsp;
                                         <a href="mailto:jungsoo.shin0827@gmail.com" className="text-gray-100 hover:text-white">
@@ -741,6 +798,7 @@ const About: React.FC = () => {
                             </div>
                         )}
                     </section>
+                    </div>
                 </main>
                 {/* <Footer /> */}
             </div >

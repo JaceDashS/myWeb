@@ -66,9 +66,10 @@ const Comments: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
 
       <main className="container mx-auto px-6 pt-4 pb-8">
-        <p className="text-gray-400 mb-6">
-          * Your username is generated based on a hash of your IP address.
-        </p>
+        <div className="pt-12">
+          <p className="text-gray-400 mb-6">
+            * Your username is generated based on a hash of your IP address.
+          </p>
 
         {/* 입력 폼 */}
         <div className="bg-gray-800 p-4 rounded-2xl shadow-lg mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -152,6 +153,7 @@ const Comments: React.FC = () => {
         </div>
 
         <p className="mt-4 mb-6 text-center text-gray-500">Powered by OCI Autonomous Database</p>
+        </div>
       </main>
     </div>
   );
